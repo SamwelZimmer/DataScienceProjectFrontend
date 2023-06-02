@@ -9,7 +9,8 @@ const SearchBar = ({ setSearchResults }: SearchBarProps) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const search = async () => {
-        const response = await fetch(`http://127.0.0.1:5001/search?term=${searchTerm}`);
+        const response = await fetch(`https://samwelzimmer.pythonanywhere.com/search?term=${searchTerm}`);
+        // const response = await fetch(`http://127.0.0.1:5001/search?term=${searchTerm}`);
         const data = await response.json();
         setSearchResults([{ result: data.result }])
     };
