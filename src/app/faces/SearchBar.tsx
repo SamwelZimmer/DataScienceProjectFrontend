@@ -12,9 +12,9 @@ const SearchBar = ({ setSearchResults, searchTerm, setSearchTerm }: SearchBarPro
 
     const search = async () => {
         // const response = await fetch(`https://samwelzimmer.pythonanywhere.com/faces?img=${searchTerm}`);
-        const response = await fetch(`http://127.0.0.1:5000/faces?img=${encodeURIComponent(searchTerm)}`);
-        const data = await response.json();
-        setSearchResults(data.result);
+        // const response = await fetch(`http://127.0.0.1:5000/faces?img=${encodeURIComponent(searchTerm)}`);
+        // const data = await response.json();
+        // setSearchResults(data.result);
     };
 
     const handleSubmit = (e: React.SyntheticEvent) => {
