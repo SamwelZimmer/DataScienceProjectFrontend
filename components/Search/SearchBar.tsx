@@ -13,8 +13,8 @@ const SearchBar = ({ setSearchResults }: SearchBarProps) => {
     const [searchType, setSearchType] = useState('search');
 
     const search = async () => {
-        const response = await fetch(`https://samwelzimmer.pythonanywhere.com/${searchType}?term=${searchTerm}`);
-        // const response = await fetch(`http://127.0.0.1:5000/${searchType}?term=${searchTerm}`);
+        // const response = await fetch(`https://samwelzimmer.pythonanywhere.com/${searchType}?term=${searchTerm}`);
+        const response = await fetch(`http://127.0.0.1:5000/${searchType}?term=${searchTerm}`);
         const data = await response.json();
         setSearchResults([{ result: data.result }])
     };
@@ -62,6 +62,6 @@ const SearchBar = ({ setSearchResults }: SearchBarProps) => {
     );
 }
 
-const searchTypes = ["search", "maths"]
+const searchTypes = ["search", "maths", "faces"]
 
 export default SearchBar

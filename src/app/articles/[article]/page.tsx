@@ -37,7 +37,7 @@ export default function ArticlePage () {
     
 
     return (
-        <main  className="w-full sm:w-[400px] md:w-[600px]  mx-auto flex flex-col justify-between p-3 ">
+        <main  className="w-full sm:w-[400px] md:w-[600px]  mx-auto flex flex-col justify-between p-3 py-12 ">
 
             <span className='opacity-50'>{formattedDate}</span>
 
