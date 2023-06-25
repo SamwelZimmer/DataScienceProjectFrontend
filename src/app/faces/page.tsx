@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-import SearchBar from "./SearchBar";
-import SearchResults from "./SearchResults";
+// import SearchBar from "./SearchBar";
+// import SearchResults from "./SearchResults";
 
 export interface FaceResult {
     birthday: string;
@@ -32,12 +32,13 @@ export default function FacesPage() {
     return (
       <>
         <main className="flex min-h-screen flex-col items-center justify-between py-24 px-6">
-            <section className='w-full flex flex-col gap-6'>
+            {/* <section className='w-full flex flex-col gap-6'>
                     <div className="w-full sm:w-[400px] mx-auto">
                         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} setSearchResults={setSearchResults} />
                     </div>
                     <SearchResults searchTerm={searchTerm} searchResults={searchResults} />
-            </section>
+            </section> */}
+            Face Search
         </main>
       </>
     )
