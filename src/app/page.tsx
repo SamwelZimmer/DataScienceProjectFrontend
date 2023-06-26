@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import Search from '../../components/Search/Search';
+import Navbar from '../../components/Navbar';
 
 // async function getMoney() {
 //   const response = await fetch("https://samwelzimmer.pythonanywhere.com/money")
@@ -15,11 +16,18 @@ export default async function Home() {
   // console.log(money.Money)
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-24 px-6">
-      <div className='w-full sm:w-[400px]'>
-        <Search />
-      </div>
-    </main>
+
+    <>
+      <Navbar showBackButton={false} />
+
+      <main className="flex min-h-screen flex-col items-center justify-between py-24 px-6">
+        <div className='w-full sm:w-[400px]'>
+          <Search />
+        </div>
+      </main>
+    </>
+
+
   )
 }
 

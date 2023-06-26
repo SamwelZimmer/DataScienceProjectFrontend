@@ -1,5 +1,6 @@
 import { getAllArticles } from "../../../lib/firebase";
 import Card from "./Card";
+import Navbar from "../../../components/Navbar";
 
 export interface Article {
     id?: string,
@@ -23,10 +24,12 @@ export default async function ArticlesPage() {
 
     return (
         <> 
-            <main className="py-32 px-3 w-full sm:w-[400px] mx-auto flex flex-col gap-6">
+            <Navbar />
+
+            <main className="py-32 px-3 w-full sm:w-[400px] md:w-[500px] mx-auto flex flex-col gap-6">
 
                 <h1 className="text-3xl font-semibold">Articles</h1>
-                <section className="w-full sm:w-[400px] flex flex-col gap-3 mx-auto">
+                <section className="w-full flex flex-col gap-3 mx-auto">
                     {articles.map((article, i) => (
                         <Card key={i} article={article} />
                     ))}
