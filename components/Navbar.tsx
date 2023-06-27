@@ -21,21 +21,19 @@ export default function Navbar({ showBackButton=true }) {
         <>
             <motion.div onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)} transition={{ layout: { duration: 0.2 } }} layout className={`fixed z-40 top-0 left-0 p-3 flex flex-col justify-between h-screen ${isOpen && 'border-r-2 border-black bg-white'}`}>
                 <div className="flex gap-6 flex-col">
-                    <motion.div layout="position" className="cursor-pointer">
+                    <motion.div layout="position" className="cursor-pointer backdrop-blur-sm rounded-lg">
                         { isOpen ? <AiOutlineMenuUnfold size={30} /> : <AiOutlineMenu size={30} /> }
                     </motion.div>
 
                     {isOpen && (
                         
                         <motion.div className="flex flex-col w-full items-center gap-3">
-                            {
-                                navItems.map((item, index) => <NavItem key={index} {...item} />)
-                            }
+                            { navItems.map((item, index) => <NavItem key={index} {...item} />) }
                         </motion.div>
                     )}
                 </div>
                 { showBackButton && 
-                    <motion.div onClick={() => router.back()} className="flex flex-row items-center gap-3 cursor-pointer hover:opacity-50">
+                    <motion.div onClick={() => router.back()} className="flex flex-row backdrop-blur-sm rounded-lg items-center gap-3 cursor-pointer hover:opacity-50">
                         { isOpen && <p>go back</p> }
                         <motion.div layout="position"><AiOutlineArrowLeft size={30} /></motion.div> 
                     </motion.div>
