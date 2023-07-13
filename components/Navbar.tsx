@@ -1,6 +1,6 @@
 "use client";
 
-import { AiOutlineMenu, AiOutlineArrowLeft, AiOutlineFileText, AiOutlineHome, AiOutlineMenuUnfold } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineArrowLeft, AiOutlineFileText, AiOutlineHome, AiOutlineMenuUnfold, AiOutlineBulb } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -46,7 +46,8 @@ export default function Navbar({ showBackButton=true }) {
 
 const navItems = [
     {route: "/", Icon: AiOutlineHome, text: "Home" },
-    {route: "/articles", Icon: AiOutlineFileText, text: "Articles" }
+    {route: "/articles", Icon: AiOutlineFileText, text: "Articles" },
+    {route: "/single-channel", Icon: AiOutlineBulb, text: "Single Channel" }
 ];
 
 interface NavItemProps {
