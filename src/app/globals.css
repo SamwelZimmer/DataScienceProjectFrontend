@@ -6,3 +6,11 @@
 .markdown > * {
     all: revert;
 }
+
+.single-signal-line {
+    fill: none;
+    stroke: black;
+    stroke-width: 1.5px;
+    stroke-linecap: round;
+    /* stroke-dasharray: 5,5; */
+}

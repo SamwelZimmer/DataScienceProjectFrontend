@@ -40,8 +40,6 @@ export default function SpeedSelector({ tickPerSecond, setTickPerSecond, sampleR
                 </div>
             </motion.div>
 
-            
-
         </div>
     );
 }

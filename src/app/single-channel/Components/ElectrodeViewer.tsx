@@ -7,6 +7,7 @@ import PlayButton from "./PlayButton";
 import PlayTime from "./PlayTime";
 import Electrode from "./Electrode";
 import SpeedSelector from "./SpeedSelector";
+import SignalPlot from "./SignalPlot";
 
 interface ElectrodeViewerProps {
     signal: number[];
@@ -31,6 +32,10 @@ export default function ElectrodeViewer({ signal, time, maxAmplitude, minAmplitu
     return (
         <>
             <section className="w-full flex flex-col items-center gap-12">
+                <div className="h-48 w-full relative">
+                    <SignalPlot signal={signal} time={time} numberOfTicks={numberOfTicks} />
+                </div>
+
                 {/* buttons and interface */}
                 <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-6">
                     <div className="flex items-center gap-3">
