@@ -10,7 +10,8 @@ import ElectrodeViewer from "./Components/ElectrodeViewer";
 async function getSignal() {
 
     // getting the example signal from the public directory
-    const filePath = path.join(process.cwd(), 'public', 'example_signal.json');
+    // const filePath = path.join(process.cwd(), 'public', 'example_signal.json');
+    const filePath = path.join(process.cwd(), 'public', 'single_electrode.json');
     const rawData = fs.readFileSync(filePath);
     const data = JSON.parse(rawData.toString());
 

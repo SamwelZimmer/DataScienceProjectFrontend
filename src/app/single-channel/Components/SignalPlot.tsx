@@ -12,13 +12,15 @@ type SignalPlotProps = {
     signal: number[];
     time: number[];
     numberOfTicks: number;
+    windowSize: number;
 };
 
-export default function SignalPlot({ signal, time, numberOfTicks  }: SignalPlotProps) {
-
-    const windowSize = 10000;
+export default function SignalPlot({ signal, time, numberOfTicks, windowSize=10000  }: SignalPlotProps) {
 
     const ref = useRef<SVGSVGElement>(null);
+
+    const yDomainMin = d3.min(signal) ?? 0;
+    const yDomainMax = d3.max(signal) ?? 1;
 
     useEffect(() => {
         // stop updating if not enough points left to plot
@@ -56,8 +58,8 @@ export default function SignalPlot({ signal, time, numberOfTicks  }: SignalPlotP
 
         const xDomainMin = d3.min(data, d => d.x) ?? 0;
         const xDomainMax = d3.max(data, d => d.x) ?? 1;
-        const yDomainMin = d3.min(data, d => d.y) ?? 0;
-        const yDomainMax = d3.max(data, d => d.y) ?? 1;
+        // const yDomainMin = d3.min(data, d => d.y) ?? 0;
+        // const yDomainMax = d3.max(data, d => d.y) ?? 1;
 
         const xScale = d3.scaleLinear()
             .domain([xDomainMin, xDomainMax])
@@ -87,14 +89,7 @@ export default function SignalPlot({ signal, time, numberOfTicks  }: SignalPlotP
             {/* {
                 numberOfTicks ? <svg ref={ref} className="w-full h-full flex mx-auto" /> : 
             } */}
-
             <svg ref={ref} className="w-full h-full flex mx-auto" />   
-
-            { !numberOfTicks && 
-                <div className="absolute w-full h-full top-0 flex items-center justify-center bg-gray-100 border-2 border-dashed border-black rounded-md">
-                    <p>Press Play To See Graph</p>
-                </div> 
-            }         
         </>
     );
 }
