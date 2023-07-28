@@ -1,26 +1,18 @@
 "use client"
 
 import { useState } from "react";
+
 import NeuronParameters from "../components/NeuronParameters";
 import NeuronSignalViewer from "../components/NeuronSignalViewer";
+import { NeuronParams, Signal } from "../page";
 
-export type Signal = {
-    x: number[];
-    y: number[];
-};
-
-export interface NeuronParams {
-    neuron_type: string;
-    lambda: number;
-    v_rest: number;
-    v_thres: number;
-    t_ref: number;
-    fix_random_seed: boolean;
+interface NeuronSectionProps {
+    signal: Signal | null;
+    setSignal: React.Dispatch<React.SetStateAction<Signal | null>>;
 }
 
-export default function NeuronSection() {
+export default function NeuronSection({ signal, setSignal }: NeuronSectionProps) {
 
-    const [signal, setSignal] = useState<Signal | null>(null);
     const [neuronParams, setNeuronParams] = useState({
         neuron_type: 'standard',
         lambda: 14,
@@ -36,7 +28,6 @@ export default function NeuronSection() {
     
             <div className="w-full h-full px-12 sm:px-0 flex flex-col md:flex-row">
                 <NeuronParameters neuronParams={neuronParams} setNeuronParams={setNeuronParams} />
-
 
                 <div className="h-full w-full flex flex-col items-center justify-start md:justify-center gap-3 md:gap-6">
                     <NeuronSignalViewer signal={signal}  />

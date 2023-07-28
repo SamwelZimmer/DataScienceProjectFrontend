@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { VscChevronLeft, VscChevronDown } from "react-icons/vsc";
-import { NeuronParams } from "../sections/NeuronSection";
+import { NeuronParams } from "../page";
 
 interface RangeParameterProps {
     name: string;

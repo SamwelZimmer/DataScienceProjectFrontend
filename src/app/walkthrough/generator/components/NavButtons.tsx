@@ -26,7 +26,7 @@ export default function NavButtons({ activeSection, sections, scrollTo, names }:
     
     return (
         <>
-            <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex gap-6 items-center">
+            <div className="fixed left-1/2 transform -translate-x-1/2 flex gap-6 items-center md:bottom-3 bottom-full pt-14 translate-y-1/2 md:translate-y-0">
 
                 {
                     activeSection != 0 ?

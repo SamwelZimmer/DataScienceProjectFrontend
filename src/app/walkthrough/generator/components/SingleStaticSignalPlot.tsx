@@ -15,7 +15,7 @@ type SignalPlotProps = {
     windowSize: number;
 };
 
-export default function SignalPlot({ signal, time, numberOfTicks, windowSize=10000  }: SignalPlotProps) {
+export default function SingleStaticSignalPlot({ signal, time, numberOfTicks, windowSize=10000  }: SignalPlotProps) {
 
     const ref = useRef<SVGSVGElement>(null);
 

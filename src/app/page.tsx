@@ -13,7 +13,6 @@ export default async function Home() {
 
   // const money = await getMoney();
 
-
   return (
 
     <>
