@@ -8,6 +8,7 @@ import styles from "./GeneratorPage.module.css"
 import Navbar from "../../../../components/Navbar";
 import NavButtons from "./components/NavButtons";
 import PlacementSection from "./sections/PlacementSection";
+import NeuronSection from "./sections/NeuronSection";
 
 const sectionNames = ["Placement", "Neuron", "Spikes"];
 
@@ -62,7 +63,7 @@ export default function GeneratorPage() {
 
                 <section ref={section2} className={`${styles.snapsection} flex items-center justify-center`}>
                     <div className="relative w-full h-full sm:w-[600px] md:w-[700px] py-24">
-                        <h2>Section 2 Will Go Here</h2>
+                        <NeuronSection />
                     </div>
                 </section>
 
