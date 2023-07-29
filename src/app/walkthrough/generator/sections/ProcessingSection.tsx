@@ -93,6 +93,8 @@ const GenerateButton = ({ processingParams, setElectrodeSignal, neuronSignal }: 
         // signal has an x and y component
         setElectrodeSignal(data);
     };
+
+
     
 
     return (
