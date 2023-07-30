@@ -11,11 +11,11 @@ type Coordinate = {
 type SignalPlotProps = {
     signal: number[];
     time: number[];
-    numberOfTicks: number;
-    windowSize: number;
+    startPosition?: number;
+    windowSize?: number;
 };
 
-export default function SingleStaticSignalPlot({ signal, time, numberOfTicks, windowSize=10000  }: SignalPlotProps) {
+export default function SingleStaticSignalPlot({ signal, time, startPosition=0, windowSize=10000 }: SignalPlotProps) {
 
     const ref = useRef<SVGSVGElement>(null);
 
@@ -23,10 +23,6 @@ export default function SingleStaticSignalPlot({ signal, time, numberOfTicks, wi
     const yDomainMax = d3.max(signal) ?? 1;
 
     useEffect(() => {
-        // stop updating if not enough points left to plot
-        if (numberOfTicks >= time.length - windowSize) {
-            return;
-        }
 
         if (!ref.current) return;
 
@@ -35,8 +31,8 @@ export default function SingleStaticSignalPlot({ signal, time, numberOfTicks, wi
         svg.selectAll("*").remove();
 
         // get subset of signal and time data
-        let ySubset = signal.slice(numberOfTicks - 1, numberOfTicks - 1 + windowSize);
-        let xSubset = time.slice(numberOfTicks - 1, numberOfTicks - 1 + windowSize);
+        let ySubset = signal.slice(startPosition, startPosition + windowSize);
+        let xSubset = time.slice(startPosition, startPosition + windowSize);
 
         // adjust x values to start from 0
         const minX = d3.min(xSubset);

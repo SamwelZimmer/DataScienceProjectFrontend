@@ -16,7 +16,7 @@ export default function NeuronSignalViewer({ signal }: NeuronSignalViewerProps) 
             { 
                 signal ? 
                 <>
-                    <SingleStaticSignalPlot signal={signal.y} time={signal.x} numberOfTicks={1} windowSize={signal.y.length - 100} />
+                    <SingleStaticSignalPlot signal={signal.y} time={signal.x} windowSize={signal.y.length} />
                 </>
                 :
                 <div className="items-center justify-center bg-gray-100 border-2 border-dashed border-black rounded-md p-12">

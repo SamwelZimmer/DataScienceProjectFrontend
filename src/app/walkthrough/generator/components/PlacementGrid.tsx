@@ -3,9 +3,12 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
+// this inital grid makes it appear on the screen instantly
+const intialGrid = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
 export default function PlacementGrid() {
     const [gridSize, setGridSize] = useState<number>(5);
-    const [placements, setPlacements] = useState<number[]>([]);
+    const [placements, setPlacements] = useState<number[]>(intialGrid);
     const [placementType, setPlacementType] = useState<number>(0); 
 
     useEffect(() => {

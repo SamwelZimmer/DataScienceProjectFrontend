@@ -11,6 +11,7 @@ import PlacementSection from "./sections/PlacementSection";
 import NeuronSection from "./sections/NeuronSection";
 import ProcessingSection from "./sections/ProcessingSection";
 import GenerateSection from "./sections/GenerateSection";
+import RecordingSection from "./sections/RecordingSection";
 import ExtractionSection from "./sections/ExtractionSection";
 
 export type Signal = {
@@ -27,7 +28,7 @@ export interface NeuronParams {
     fix_random_seed: boolean;
 }
 
-const sectionNames = ["Placement", "Neuron", "Processing", "Generate", "Spikes"];
+const sectionNames = ["Placement", "Neuron", "Processing", "Generate", "Recordings", "Spikes"];
 
 export default function GeneratorPage() {
     const [activeSection, setActiveSection] = useState(0);
@@ -40,6 +41,7 @@ export default function GeneratorPage() {
     const section3 = useRef<HTMLDivElement>(null);
     const section4 = useRef<HTMLDivElement>(null);
     const section5 = useRef<HTMLDivElement>(null);
+    const section6 = useRef<HTMLDivElement>(null);
 
     // only show certain number of sections before simulation
     let sections: Array<React.RefObject<HTMLDivElement>> = [section1, section2, section3, section4];
@@ -122,6 +124,12 @@ export default function GeneratorPage() {
 
                     <>
                         <section ref={section5} className={`${styles.snapsection} flex items-center justify-center`}>
+                            <div className="relative w-full h-full sm:w-[600px] md:w-[700px] py-24">
+                                <RecordingSection />
+                            </div>
+                        </section>
+
+                        <section ref={section6} className={`${styles.snapsection} flex items-center justify-center`}>
                             <div className="relative w-full h-full sm:w-[600px] md:w-[700px] py-24">
                                 <ExtractionSection />
                             </div>
