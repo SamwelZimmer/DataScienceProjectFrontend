@@ -16,6 +16,11 @@ export default function PlacementGrid() {
         setPlacements(newPlacements);
     }, [gridSize]);
 
+    useEffect(() => {
+        // store layoutParams in session storage
+        sessionStorage.setItem('placements', JSON.stringify(placements));
+    }, [placements])
+
     const handleTileClick = (id: number) => {
         setPlacements(prevPlacements => prevPlacements.map((placement, index) => {
             if (index === id) {
@@ -36,7 +41,6 @@ export default function PlacementGrid() {
         }
         setPlacements(newPlacements);
     }
-    
 
     const colours = ["bg-transparent", "bg-red-600", "bg-blue-800"];
 
@@ -54,7 +58,7 @@ export default function PlacementGrid() {
                 {/* controls */}
                 <div className="grid gap-y-2 md:gap-6 grid-cols-2 md:grid-cols-1 flex-col justify-start items-start gap-6 py-6">
 
-                    <span className="text-center md:text-left md:pl-3 grid-cols-1 row-start-1 col-span-2">Grid Size</span>
+                    <span className="text-center font-thin md:text-left md:pl-3 grid-cols-1 row-start-1 col-span-2">Grid Size</span>
 
                     <div className="flex flex-col mx-auto my-auto gap-1 col-start-1 row-start-2 col-span-2">
                         <div className="flex items-center justify-between w-[200px]">
@@ -63,7 +67,7 @@ export default function PlacementGrid() {
                         </div>
                     </div>
 
-                    <span className="text-center md:text-left md:pl-3 col-start-1 col-span-2 row-start-3 pt-3">Placements</span>
+                    <span className="text-center font-thin md:text-left md:pl-3 col-start-1 col-span-2 row-start-3 pt-3">Placements</span>
 
                     <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setPlacementType(1)} className="col-start-1 row-start-4 flex items-center p-3 w-max sm:w-[145px] mx-auto md:mx-0 justify-between border-2 rounded-md shadow-md gap-3 md:gap-6">
                         <div className="h-full w-6 rounded-md aspect-square bg-red-600" /> 

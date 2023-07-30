@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import NeuronParameters from "../components/NeuronParameters";
 import NeuronSignalViewer from "../components/NeuronSignalViewer";
@@ -46,6 +46,10 @@ interface NeuronSignalGeneratorProps {
 function NeuronSignalGenerator({ setSignal, neuronParams }: NeuronSignalGeneratorProps) {
 
     const handleClick = async () => {
+
+        // store neuronParams in session storage
+        sessionStorage.setItem('neuronParams', JSON.stringify(neuronParams));
+
         const response = await fetch('http://127.0.0.1:5000/generate_neuron_signal', {
             method: 'POST',
             headers: {

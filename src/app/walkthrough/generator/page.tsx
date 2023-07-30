@@ -10,6 +10,7 @@ import NavButtons from "./components/NavButtons";
 import PlacementSection from "./sections/PlacementSection";
 import NeuronSection from "./sections/NeuronSection";
 import ProcessingSection from "./sections/ProcessingSection";
+import GenerateSection from "./sections/GenerateSection";
 import ExtractionSection from "./sections/ExtractionSection";
 
 export type Signal = {
@@ -26,10 +27,11 @@ export interface NeuronParams {
     fix_random_seed: boolean;
 }
 
-const sectionNames = ["Placement", "Neuron", "Processing", "Spikes"];
+const sectionNames = ["Placement", "Neuron", "Processing", "Generate", "Spikes"];
 
 export default function GeneratorPage() {
     const [activeSection, setActiveSection] = useState(0);
+    const [hasBeenGenerated, setHasBeenGenerated] = useState(false);
 
     const [neuronSignal, setNeuronSignal] = useState<Signal | null>(null);
 
@@ -37,8 +39,13 @@ export default function GeneratorPage() {
     const section2 = useRef<HTMLDivElement>(null);
     const section3 = useRef<HTMLDivElement>(null);
     const section4 = useRef<HTMLDivElement>(null);
+    const section5 = useRef<HTMLDivElement>(null);
 
-    const sections: Array<React.RefObject<HTMLDivElement>> = [section1, section2, section3, section4];
+    // only show certain number of sections before simulation
+    let sections: Array<React.RefObject<HTMLDivElement>> = [section1, section2, section3, section4];
+    if (hasBeenGenerated) {
+        sections = [section1, section2, section3, section4, section5];
+    } 
 
     // called whenever the user scrolls
     const handleScroll = () => {
@@ -68,6 +75,17 @@ export default function GeneratorPage() {
         section.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
+    useEffect(() => {
+
+        // only allow user to extraction section if signals have been generated
+        if (activeSection >= 3) {
+            const recordedSignals = sessionStorage.getItem('recordedSignals');
+            if (recordedSignals) {
+                setHasBeenGenerated(true);
+            }
+        }
+    }, [activeSection]);
+
     return (
         <>
             <Navbar />
@@ -93,10 +111,23 @@ export default function GeneratorPage() {
                 </section>
 
                 <section ref={section4} className={`${styles.snapsection} flex items-center justify-center`}>
-                    <div className="relative w-full h-full sm:w-[600px] md:w-[700px] py-24">
-                        <ExtractionSection />
+                    <div className="relative w-full h-full py-24">
+                        <GenerateSection />
                     </div>
                 </section>
+
+                {/* canny go any further until signal generation */}
+                {
+                    hasBeenGenerated &&
+
+                    <>
+                        <section ref={section5} className={`${styles.snapsection} flex items-center justify-center`}>
+                            <div className="relative w-full h-full sm:w-[600px] md:w-[700px] py-24">
+                                <ExtractionSection />
+                            </div>
+                        </section>
+                    </>
+                }
 
             </main>
 

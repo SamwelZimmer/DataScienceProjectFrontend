@@ -74,6 +74,9 @@ const GenerateButton = ({ processingParams, setElectrodeSignal, neuronSignal }: 
             // maybe react hot toast here 
             return;
         }
+
+        // store neuronParams in session storage
+        sessionStorage.setItem('processingParams', JSON.stringify(processingParams));
     
         const requestBody = {
             processingParams: processingParams,
@@ -93,9 +96,6 @@ const GenerateButton = ({ processingParams, setElectrodeSignal, neuronSignal }: 
         // signal has an x and y component
         setElectrodeSignal(data);
     };
-
-
-    
 
     return (
         <button onClick={handleClick} className="border border-black rounded-md px-6 py-2">
