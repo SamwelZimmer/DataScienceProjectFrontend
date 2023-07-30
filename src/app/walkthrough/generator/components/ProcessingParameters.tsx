@@ -17,14 +17,6 @@ interface ProcessingParametersProps {
 
 export default function ProcessingParameters({ processingParams, setProcessingParams}: ProcessingParametersProps) {
 
-    // decay type
-    // decay rate
-
-    // noise type
-    // noise std
-
-    // filtering range
-
     return (
         <div className="flex flex-col gap-6 items-center justify-center">
             <div className="flex flex-col gap-1">

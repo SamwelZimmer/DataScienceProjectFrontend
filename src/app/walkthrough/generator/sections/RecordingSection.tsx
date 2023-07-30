@@ -21,7 +21,7 @@ export default function RecordingSection() {
                                 <div key={i} className="flex flex-col w-full h-full sm:px-6 md:px-12">
                                     <span className="text-center font-thin">Electrode {i + 1}</span>
                                     <div className="w-full">
-                                        <SingleStaticSignalPlot signal={signal} time={recordedSignals["time"]} windowSize={25000} />
+                                        <SingleStaticSignalPlot signal={signal} time={recordedSignals["time"]} windowSize={signal.length} />
                                     </div>
                                 </div>
                             ))

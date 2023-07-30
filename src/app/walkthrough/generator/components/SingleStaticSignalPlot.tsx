@@ -13,9 +13,11 @@ type SignalPlotProps = {
     time: number[];
     startPosition?: number;
     windowSize?: number;
+    labels?: false | string[];
+    yLine?: boolean | number;
 };
 
-export default function SingleStaticSignalPlot({ signal, time, startPosition=0, windowSize=10000 }: SignalPlotProps) {
+export default function SingleStaticSignalPlot({ signal, time, startPosition=0, windowSize=10000, labels=false, yLine=false }: SignalPlotProps) {
 
     const ref = useRef<SVGSVGElement>(null);
 
@@ -48,7 +50,7 @@ export default function SingleStaticSignalPlot({ signal, time, startPosition=0, 
         const width = parent.clientWidth;
         const height = parent.clientHeight;
     
-        const margin = { top: 10, right: 10, bottom: 20, left: 30 };
+        const margin = { top: 10, right: 10, bottom: 30, left: 30 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
 
@@ -88,8 +90,54 @@ export default function SingleStaticSignalPlot({ signal, time, startPosition=0, 
     
         g.append('g')
             .call(yAxis); 
+        
+        // show horizontal line if requested
+        if (typeof yLine === "number") {
+            const yValue = yScale(yLine);
+            g.append("line")
+                .attr("x1", 0)
+                .attr("y1", yValue)
+                .attr("x2", innerWidth)
+                .attr("y2", yValue)
+                .attr("stroke", "red")
+                .attr("stroke-width", 1)
+                .attr("stroke-dasharray", "5,5");  
+        
+            g.append("text")
+                .attr("x", 5)
+                .attr("y", yValue - 5)
+                .text(`y = ${Math.round((yLine + Number.EPSILON) * 100) / 100}`)
+                .attr("font-size", "10px")
+                .attr("fill", "black");
+        }
+
+        if (labels) {
+            // append x axis label
+            g.append("text")             
+                .attr("transform",
+                    "translate(" + (innerWidth/2) + " ," + 
+                                    (innerHeight + margin.top + 10) + ")")
+                .style("text-anchor", "middle")
+                .style("font-size", "11px") 
+                .style("fill", "black") 
+                .style("font-weight", "light") 
+                .text(labels[0]);
+
+            // append y axis label
+            g.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0 - margin.left)
+                .attr("x",0 - (innerHeight / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .style("font-size", "11px") 
+                .style("fill", "black") 
+                .style("font-weight", "light") 
+                .text(labels[1]);  
+        }
     
-    }, [signal]);
+    }, [signal, yLine]);
+
 
     return (
         <>

@@ -28,8 +28,6 @@ export interface NeuronParams {
     fix_random_seed: boolean;
 }
 
-const sectionNames = ["Placement", "Neuron", "Processing", "Generate", "Recordings", "Spikes"];
-
 export default function GeneratorPage() {
     const [activeSection, setActiveSection] = useState(0);
     const [hasBeenGenerated, setHasBeenGenerated] = useState(false);
@@ -45,8 +43,11 @@ export default function GeneratorPage() {
 
     // only show certain number of sections before simulation
     let sections: Array<React.RefObject<HTMLDivElement>> = [section1, section2, section3, section4];
+    let sectionNames = ["Placement", "Neuron", "Processing", "Generate"];
+
     if (hasBeenGenerated) {
         sections = [section1, section2, section3, section4, section5];
+        sectionNames = ["Placement", "Neuron", "Processing", "Generate", "Recordings", "Spikes"];
     } 
 
     // called whenever the user scrolls
