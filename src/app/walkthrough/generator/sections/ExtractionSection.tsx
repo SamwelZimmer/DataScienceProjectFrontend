@@ -7,11 +7,25 @@ import { BsDashLg, BsDash } from "react-icons/bs";
 
 import SingleStaticSignalPlot from "../components/SingleStaticSignalPlot";
 import WaveformPlot from "../components/WaveformPlot";
+import SpikeTrainPlot from "../components/SpikeTrainPlot";
+import StackedSpikeTrainPlot from "../components/StackedSpikeTrainPlot";
 
 interface ExtractionParams {
     thresholdMultiplier: number;
     waveformDuration: number;
 };
+
+interface WaveformInfo {
+    highest_value: number;
+    lowest_value: number;
+    spike_end: number;
+    spike_start: number;
+    values: number[];
+};
+
+export type ElectrodeWaveformInfo = WaveformInfo[];
+
+type AllWaveformInfo = ElectrodeWaveformInfo[];
 
 // a single waveform, represented as an array of points
 export type Waveform = number[];
@@ -22,6 +36,7 @@ export default function ExtractionSection() {
     const [activeSignal, setActiveSignal] = useState(null);
     const [showSpiketrain, setShowSpiketrain] = useState(false);
     const [allWaveforms, setAllWaveforms] = useState<Waveform[][] | null>(null);
+    const [allWaveformInfo, setAllWaveformInfo] = useState<AllWaveformInfo | null>(null);
     const [threshold, setThreshold] = useState<boolean | number>(false);
     const [extractionParams, setExtractionParams] = useState({
         thresholdMultiplier: 4,
@@ -88,7 +103,7 @@ export default function ExtractionSection() {
                     
                     {/* button to extract spikes */}
                     <div className="w-max mx-auto md:mx-0">
-                        <ExtractButton extractionParams={extractionParams} setAllWaveforms={setAllWaveforms} />
+                        <ExtractButton extractionParams={extractionParams} setAllWaveforms={setAllWaveforms} setAllWaveformInfo={setAllWaveformInfo} />
                     </div>
                 </div>
 
@@ -99,13 +114,21 @@ export default function ExtractionSection() {
                 </div>
                 
                 {/* large screens */}
-                <div className="hidden md:flex flex-row items-center">
+                <div className="hidden md:flex flex-row items-center justify-between gap-12">
                     {/* individual spike waveform viewer */}
-                    <div className="h-48 w-48 ">
+                    <div className="h-48 w-48">
                         { allWaveforms && <WaveformPlot waveforms={allWaveforms[activeIndex]} titles={["Time (ms)", "Potential (mV)"]} />}
                     </div>
                     
                     {/* individual spike train viewer */}
+                    <div className="h-[100px]">
+                        { allWaveformInfo && <SpikeTrain waveformInfo={allWaveformInfo[activeIndex]} time={time} titles={["Time (s)", "Potential (mV)"]} /> }
+                    </div>
+
+                    {/* this doesnt work yet */}
+                    {/* <div className="h-full bg-red-200">
+                        { allWaveformInfo && <StackedSpikeTrain allWaveformInfo={allWaveformInfo} time={time} /> }
+                    </div> */}
                 </div>
                 
                 {/* small screens */}
@@ -114,10 +137,15 @@ export default function ExtractionSection() {
                         { showSpiketrain ? "Show Waveforms" : "Show Spike Train" }
                     </motion.button>
 
-                    <div className="h-48 w-48 ">
+                    <div className="h-48 flex justify-center items-center">
                         {
-                            showSpiketrain ? <></> :
-                            <div className="w-full h-full">
+                            showSpiketrain 
+                            ? 
+                            <div className="h-[100px] w-full">
+                                { allWaveformInfo && <SpikeTrain waveformInfo={allWaveformInfo[activeIndex]} time={time} titles={["Time (s)", "Potential (mV)"]} /> }
+                            </div>
+                            :
+                            <div className="w-48 h-full">
                                 { allWaveforms && <WaveformPlot waveforms={allWaveforms[activeIndex]} titles={["Time (ms)", "Potential (mV)"]} />}
                             </div>
                         }
@@ -127,6 +155,88 @@ export default function ExtractionSection() {
                 </div>
 
             </section>
+        </>
+    );
+}
+
+interface StackedSpikeTrainProps {
+    allWaveformInfo: AllWaveformInfo | null;
+    time: number[];
+    titles: string[];
+}
+
+const StackedSpikeTrain = ({ allWaveformInfo, time, titles }: StackedSpikeTrainProps) => {
+    function createArray(length: number, start: number, end: number) {
+        const step = (end - start) / (length - 1);
+        return Array.from({length}, (_, i) => start + i * step);
+    };
+
+    if (!allWaveformInfo) {
+        console.log('No waveform info')
+        return (
+            <>
+            </>
+        );
+    };
+
+    // reformat data
+    let allWaveformsPoints = [];
+
+    for (let j = 0; j < allWaveformsPoints.length; j++) {
+        let waveformInfo = allWaveformInfo[j];
+
+        let allPoints = [];
+        for (let i = 0; i < waveformInfo.length; i++) {
+            let waveformLength = waveformInfo[i]["values"].length;
+            let xArr = createArray(waveformLength, waveformInfo[i]["spike_start"], waveformInfo[i]["spike_end"]);
+            let yArr = waveformInfo[i]["values"];
+            let points = xArr.map((x, idx) => [x, yArr[idx]]);
+            allPoints.push(points);
+        }
+        allWaveformsPoints.push(allPoints);
+    }
+
+    return (
+        <>
+            {/* <StackedSpikeTrain data={allWaveformsPoints} time={time} /> */}
+        </>
+    );
+
+}
+
+interface SpikeTrainProps {
+    waveformInfo: ElectrodeWaveformInfo | null;
+    time: number[];
+    titles?: string[];
+}
+
+const SpikeTrain = ({ waveformInfo, time, titles=[] }: SpikeTrainProps) => {
+
+    function createArray(length: number, start: number, end: number) {
+        const step = (end - start) / (length - 1);
+        return Array.from({length}, (_, i) => (start + i * step) / 25000);
+    }
+
+    if (!waveformInfo) {
+        return (
+            <>
+            </>
+        );
+    }
+
+    // reformat data
+    let allPoints = [];
+    for (let i = 0; i < waveformInfo.length; i++) {
+        let waveformLength = waveformInfo[i]["values"].length;
+        let xArr = createArray(waveformLength, waveformInfo[i]["spike_start"], waveformInfo[i]["spike_end"]);
+        let yArr = waveformInfo[i]["values"];
+        let points = xArr.map((x, idx) => [x, yArr[idx]]);
+        allPoints.push(points);
+    }
+
+    return (
+        <>
+            <SpikeTrainPlot data={allPoints} time={time} titles={titles} />
         </>
     );
 }
@@ -174,7 +284,7 @@ const ActiveIndexButtons = ({ activeIndex, setActiveIndex }: ActiveIndexButtonsP
                     }
                 })}
 
-                <motion.button disabled={activeIndex == numberOfSignals - 1} onClick={handleRightClick} whileHover={{ scale: 1.1, translateX: 2 }} whileTap={{ scale: 0.9 }}>
+                <motion.button className="opacity-50" disabled={activeIndex == numberOfSignals - 1} onClick={handleRightClick} whileHover={{ scale: 1.1, translateX: 2 }} whileTap={{ scale: 0.9 }}>
                     <VscChevronRight size={25} />
                 </motion.button>
             </div>
@@ -212,9 +322,10 @@ const SingleSlider = ({ text, name, min, max, initial, extractionParams, setExtr
 interface ExtractButtonProps {
     extractionParams: ExtractionParams;
     setAllWaveforms: React.Dispatch<React.SetStateAction<Waveform[][] | null>>;
+    setAllWaveformInfo: React.Dispatch<React.SetStateAction<AllWaveformInfo | null>>;
 }
 
-const ExtractButton = ({ extractionParams, setAllWaveforms }: ExtractButtonProps) => {
+const ExtractButton = ({ extractionParams, setAllWaveforms, setAllWaveformInfo }: ExtractButtonProps) => {
 
     let recordedSignals = JSON.parse(sessionStorage.getItem('recordedSignals') || "[]");
 
@@ -233,7 +344,8 @@ const ExtractButton = ({ extractionParams, setAllWaveforms }: ExtractButtonProps
         });
     
         const data = await response.json();
-        setAllWaveforms(data["waveforms"])
+        setAllWaveforms(data["waveforms"]);
+        setAllWaveformInfo(data["waveform_info"])
     };
 
     return (
