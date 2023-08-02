@@ -5,9 +5,10 @@ interface SpikeTrainPlotProps {
     data: number[][][];
     time: number[];
     titles: string[];
+    labels?: false | number[] | null;
 };
 
-export default function SpikeTrainPlot({ data, time, titles=[] }: SpikeTrainPlotProps) {
+export default function SpikeTrainPlot({ data, time, titles=[], labels=false }: SpikeTrainPlotProps) {
     const ref = useRef<SVGSVGElement>(null);
 
     useEffect(() => {
@@ -49,13 +50,16 @@ export default function SpikeTrainPlot({ data, time, titles=[] }: SpikeTrainPlot
         const g = svg.append('g')
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+        // create a color scale.
+        const colorScale = d3.scaleOrdinal(d3.schemeSet1);
+
         allValues.forEach((waveform, i) => {
             g.append('path')
                 .datum(waveform)
                 .attr('class', `signal-line waveform-${i}`)
                 .attr('d', line)
                 .attr('fill', 'none')
-                .attr('stroke', 'black')
+                .attr('stroke', labels ? colorScale(labels[i].toString()) : 'black') 
                 .attr('stroke-width', 1.5);
         });
 

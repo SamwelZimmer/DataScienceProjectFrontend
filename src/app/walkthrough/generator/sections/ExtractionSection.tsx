@@ -346,6 +346,10 @@ const ExtractButton = ({ extractionParams, setAllWaveforms, setAllWaveformInfo }
         const data = await response.json();
         setAllWaveforms(data["waveforms"]);
         setAllWaveformInfo(data["waveform_info"])
+
+        // store waveforms in session storage
+        sessionStorage.setItem('waveforms', JSON.stringify(data["waveforms"]));
+        sessionStorage.setItem('waveform_info', JSON.stringify(data["waveform_info"]));
     };
 
     return (

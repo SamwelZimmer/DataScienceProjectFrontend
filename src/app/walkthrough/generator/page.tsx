@@ -13,6 +13,8 @@ import ProcessingSection from "./sections/ProcessingSection";
 import GenerateSection from "./sections/GenerateSection";
 import RecordingSection from "./sections/RecordingSection";
 import ExtractionSection from "./sections/ExtractionSection";
+import FeaturesSection from "./sections/FeaturesSection";
+import ClusteringSection from "./sections/ClusteringSection";
 
 export type Signal = {
     x: number[];
@@ -40,14 +42,16 @@ export default function GeneratorPage() {
     const section4 = useRef<HTMLDivElement>(null);
     const section5 = useRef<HTMLDivElement>(null);
     const section6 = useRef<HTMLDivElement>(null);
+    const section7 = useRef<HTMLDivElement>(null);
+    const section8 = useRef<HTMLDivElement>(null);
 
     // only show certain number of sections before simulation
     let sections: Array<React.RefObject<HTMLDivElement>> = [section1, section2, section3, section4];
     let sectionNames = ["Placement", "Neuron", "Processing", "Generate"];
 
     if (hasBeenGenerated) {
-        sections = [section1, section2, section3, section4, section5];
-        sectionNames = ["Placement", "Neuron", "Processing", "Generate", "Recordings", "Spikes"];
+        sections = [section1, section2, section3, section4, section5, section6, section7, section8];
+        sectionNames = ["Placement", "Neuron", "Processing", "Generate", "Recordings", "Spikes", "Reduction", "Clustering"];
     } 
 
     // called whenever the user scrolls
@@ -133,6 +137,18 @@ export default function GeneratorPage() {
                         <section ref={section6} className={`${styles.snapsection} flex items-center justify-center`}>
                             <div className="relative w-full h-full sm:w-[600px] md:w-[700px] py-24">
                                 <ExtractionSection />
+                            </div>
+                        </section>
+
+                        <section ref={section7} className={`${styles.snapsection} flex items-center justify-center`}>
+                            <div className="relative w-full h-full sm:w-[600px] md:w-[700px] py-24">
+                                <FeaturesSection />
+                            </div>
+                        </section>
+
+                        <section ref={section8} className={`${styles.snapsection} flex items-center justify-center`}>
+                            <div className="relative w-full h-full sm:w-[600px] md:w-[700px] py-24">
+                                <ClusteringSection />
                             </div>
                         </section>
                     </>

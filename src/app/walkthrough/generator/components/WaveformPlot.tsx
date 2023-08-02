@@ -6,7 +6,7 @@ import * as d3 from "d3";
 import { Waveform } from "../sections/ExtractionSection";
 
 interface WaveformPlotProps {
-    labels?: false | number[];
+    labels?: false | number[] | null;
     titles?: false | string[];
     waveforms: Waveform[];
 };
@@ -65,14 +65,16 @@ export default function WaveformPlot({ waveforms, labels=false, titles=false }: 
         const g = svg.append('g')
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-        // Append a 'path' for each waveform
+        // create a color scale.
+        const colorScale = d3.scaleOrdinal(d3.schemeSet1);
+
         waveformsTransformed.forEach((waveform, index) => {
             g.append('path')
                 .datum(waveform)
                 .attr('class', `signal-line waveform-${index}`)
                 .attr('d', line)
                 .attr('fill', 'none')
-                .attr('stroke', 'black')
+                .attr('stroke', labels ? colorScale(labels[index].toString()) : 'black') // Convert number to string.
                 .attr('stroke-width', 1.5);
         });
 
@@ -87,10 +89,6 @@ export default function WaveformPlot({ waveforms, labels=false, titles=false }: 
     
         g.append('g')
             .call(yAxis);
-
-            if (labels) {
-                // do something with colour??
-            }
 
         if (titles) {
             // append x axis label
