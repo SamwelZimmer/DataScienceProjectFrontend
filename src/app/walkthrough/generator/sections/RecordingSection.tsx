@@ -9,9 +9,6 @@ export default function RecordingSection() {
 
     return (
         <>
-
-                <h1 className="text-4xl font-semibold px-12 sm:px-0">Electrode Recordings</h1>
-
                 <p className="px-12 sm:px-0">The signals recorded by each of the electrodes</p>
 
                 <section className="w-full h-full px-12 sm:px-0 py-24">

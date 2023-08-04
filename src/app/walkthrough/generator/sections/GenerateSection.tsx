@@ -73,8 +73,6 @@ export default function GenerateSection() {
 
     return (
         <>
-                <h1 className="text-4xl font-semibold px-12 sm:px-0 w-full sm:w-[600px] md:w-[700px] mx-auto">Generate Signals</h1>
-
                 <section className="w-full h-full sm:px-0 flex flex-col gap-6 justify-between py-12">
                     <div className="w-full sm:w-[600px] md:w-[700px] mx-auto flex flex-col gap-6 px-12">
                         <span className="font-thin">What you{"'"}ve done so far...</span>

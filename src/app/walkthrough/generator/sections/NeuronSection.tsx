@@ -23,9 +23,7 @@ export default function NeuronSection({ signal, setSignal }: NeuronSectionProps)
     });
 
     return (
-        <>
-            <h1 className="text-4xl font-semibold px-12 sm:px-0">Neuron Type and Signal</h1>
-    
+        <>    
             <div className="w-full h-full px-12 sm:px-0 flex flex-col md:flex-row">
                 <NeuronParameters neuronParams={neuronParams} setNeuronParams={setNeuronParams} />
 

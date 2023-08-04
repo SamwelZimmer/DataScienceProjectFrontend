@@ -1,27 +1,41 @@
 "use client"
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // this inital grid makes it appear on the screen instantly
-const intialGrid = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
 export default function PlacementGrid() {
-    const [gridSize, setGridSize] = useState<number>(5);
-    const [placements, setPlacements] = useState<number[]>(intialGrid);
+
+    // get the stored placements from sessionStorage or use default value if not present
+    const defaultPlacements = JSON.stringify([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+    const storedPlacements = JSON.parse(sessionStorage.getItem('placements') || defaultPlacements);
+    
+    const [gridSize, setGridSize] = useState<number>(storedPlacements.length > 0 ? Math.sqrt(storedPlacements.length) : 5 );
+    const [placements, setPlacements] = useState<number[]>(storedPlacements);
     const [placementType, setPlacementType] = useState<number>(0); 
 
+    const initialRender = useRef(true); // Ref to track initial render
+
     useEffect(() => {
-        let newPlacements: number[] = [];
-        for (let i = 0; i < gridSize ** 2; i++) {
-            newPlacements.push(0)
+        // Skip effect if it's the initial render
+        if (initialRender.current) {
+            initialRender.current = false;
+        } else {
+            let newPlacements: number[] = [];
+            for (let i = 0; i < gridSize ** 2; i++) {
+                newPlacements.push(0);
+            }
+            setPlacements(newPlacements);
         }
-        setPlacements(newPlacements);
     }, [gridSize]);
 
     useEffect(() => {
-        // store layoutParams in session storage
-        sessionStorage.setItem('placements', JSON.stringify(placements));
+        // clear all session storage
+        // sessionStorage.clear(); 
+
+        // add grid placement info to the storage 
+        sessionStorage.setItem('placements', JSON.stringify(placements));    
     }, [placements])
 
     const handleTileClick = (id: number) => {

@@ -36,8 +36,6 @@ export default function ProcessingSection({ signal }: ProcessingSectionProps) {
 
     return (
         <>
-            <h1 className="text-4xl font-semibold px-12 sm:px-0">Signal Noise and Filtering</h1>
-
             <div className="w-full h-full px-12 sm:px-0 flex flex-col md:flex-row md:gap-6">
 
                 <div className="flex flex-col w-full h-full items-center justify-center gap-6">

@@ -27,9 +27,7 @@ export default function ClusteringSection() {
     });
 
     return (
-        <>
-            <h1 className="text-4xl font-semibold px-12 sm:px-0">Neuron Clustering</h1>
-    
+        <>    
             <div className="w-full h-full py-12 px-12 sm:px-0 flex flex-col gap-12 justify-center">
 
                 <div className="w-full flex-col flex md:flex-row justify-center gap-12">
@@ -266,7 +264,9 @@ function ClusterGenerator({ clusteringParams, setClusterData, setLoading }: Clus
             }
     
             const data = await response.json();
-    
+
+            sessionStorage.setItem('predictedLabels', JSON.stringify(data["predicted_labels"]));
+
             // signal has an x and y component
             setClusterData(data);
     
