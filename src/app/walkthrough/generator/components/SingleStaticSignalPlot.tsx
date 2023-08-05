@@ -50,7 +50,7 @@ export default function SingleStaticSignalPlot({ signal, time, startPosition=0, 
         const width = parent.clientWidth;
         const height = parent.clientHeight;
     
-        const margin = { top: 10, right: 10, bottom: 50, left: 30 };
+        const margin = { top: 10, right: 10, bottom: 30, left: 30 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
 

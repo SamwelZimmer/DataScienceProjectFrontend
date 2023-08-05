@@ -131,7 +131,7 @@ export default function ExtractionSection() {
                 
                 {/* small screens */}
                 <div className="flex md:hidden flex-col mx-auto gap-3">
-                    <motion.button onClick={() => setShowSpiketrain(!showSpiketrain)} className="w-[175px] mx-auto border border-black rounded-md py-1 text-center">
+                    <motion.button onClick={() => setShowSpiketrain(!showSpiketrain)} className="w-[175px] mx-auto border-b pb-1 text-center">
                         { showSpiketrain ? "Show Waveforms" : "Show Spike Train" }
                     </motion.button>
 
@@ -309,11 +309,13 @@ const SingleSlider = ({ text, name, min, max, initial, extractionParams, setExtr
     }, [value]);
 
     return (
-        <div className="flex items-center justify-between w-max mx-auto gap-3">
-            <span className="w-15 text-left">{text}</span>
+        <div className="flex items-center w-max gap-3">
+            <div className="w-28 text-left font-light flex justify-between">
+                <span className="opacity-50">{text} :</span>
+                <span>{value}</span>
+            </div>
             <input id="steps-range" type="range" min={min} max={max} value={value} step="0.1" onChange={(e) => setValue(Number(e.target.value))} className="w-[150px] h-6 px-1 bg-gray-200 rounded-full appearance-none cursor-pointer" />
-            <span className="w-8 text-right">{value}</span>
-        </div>    
+        </div>     
     );
 }
 
@@ -352,10 +354,10 @@ const ExtractButton = ({ extractionParams, setAllWaveforms, setAllWaveformInfo }
 
     return (
         <motion.button 
-            onClick={handleClick}
-            whileHover={{ scale: 1.05 }} 
-            whileTap={{ scale: 0.95 }} 
-            className="border border-black px-6 py-1 rounded-md"
+            onClick={handleClick} 
+            className="border border-black rounded-md px-6 py-2 shadow-md font-semibold"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
         >
             Extract
         </motion.button>

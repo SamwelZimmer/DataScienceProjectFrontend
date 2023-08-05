@@ -12,16 +12,16 @@ interface NeuronSignalViewerProps {
 export default function NeuronSignalViewer({ signal }: NeuronSignalViewerProps) {
 
     return (
-        <section className="w-full h-[175px] flex flex-col items-center justify-center">
+        <section className="w-full h-full flex flex-col items-center justify-center">
             { 
                 signal ? 
-                <>
-                    <SingleStaticSignalPlot signal={signal.y} time={signal.x} windowSize={signal.y.length} />
-                </>
+                <div className="w-full h-full sm:h-[200px]">
+                    <SingleStaticSignalPlot signal={signal.y} time={signal.x} windowSize={signal.y.length} labels={["Time (s)", "Potential (mV)"]} />
+                </div>
                 :
-                <div className="items-center justify-center bg-gray-100 border-2 border-dashed border-black rounded-md p-12">
-                    <p>Generate Signal To See Graph</p>
-                </div> 
+                <div className="w-full h-full sm:h-[200px] border border-dashed rounded-md flex flex-col items-center justify-center">
+                    <span className="flex self-center mx-auto opacity-30 px-6 text-center">Press {"'"}Apply{"'"} to See Graph</span>
+                </div>
                 }
         </section>
     );

@@ -53,10 +53,12 @@ const RangeParameterComponent: React.FC<RangeParameterProps & NeuronParametersPr
     }, [value]);
 
     return (
-        <div className="flex items-center justify-between w-max mx-auto gap-3">
-            <span className="w-8 text-left">{symbol}</span>
+        <div className="flex items-center justify-between w-max gap-3">
+            <div className="w-20 text-left font-light flex justify-between">
+                <span className="opacity-50">{symbol} :</span>
+                <span>{value}</span>
+            </div>
             <input id="steps-range" type="range" min={min} max={max} value={value} step="1" onChange={(e) => setValue(Number(e.target.value))} className="w-[150px] h-6 px-1 bg-gray-200 rounded-full appearance-none cursor-pointer" />
-            <span className="w-8 text-right">{value}</span>
         </div>    
     );
 }
@@ -70,9 +72,9 @@ const CheckboxParameterComponent: React.FC<CheckboxParameterProps & NeuronParame
     }, [checked]);
 
     return (
-        <div className="flex items-center justify-between w-max mx-auto gap-3">
-            <span>{symbol}</span>
-            <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+        <div className="flex items-center justify-between w-max gap-3">
+            <span className="font-light opacity-50">{symbol}</span>
+            <input type="checkbox" className="cursor-pointer" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
         </div>
     );
 }
@@ -146,14 +148,17 @@ export default function NeuronParameters({ neuronParams, setNeuronParams }: Neur
     const [neuronType, setNeuronType] = useState(Object.keys(neuronParameters)[0]);
 
     return (
-            <div className="w-full h-full flex flex-col justify-center items-center gap-6">
+            <div className="w-full h-full flex flex-col justify-center items-center gap-3">
                 <div className="w-full flex flex-col justify-center items-center">
-                    <span className="text-center w-full font-thin">Neuron Type</span>
-                    <NeuronSelector neuronType={neuronType} setNeuronType={setNeuronType} />
+                    <OptionsSelector 
+                        options={["Leaky Integral Fire (LIF)", "Bursting Neuron"]} 
+                        unavailable={["Bursting Neuron"]} 
+                        text={"Neuron Type:"}
+                        setNeuronType={setNeuronType}
+                    />
                 </div>
 
                 <div className="w-full flex flex-col justify-center items-center">
-                    <span className="text-center font-thin">Neuron Parameters</span>
                     <div className="flex w-full flex-col gap-3">
                         {
                             Object.keys(neuronParameters[neuronType]).map((key, i) => {
@@ -246,4 +251,53 @@ const NeuronSelector = ({ neuronType, setNeuronType }: NeuronSelector) => {
     );
 };
 
+
+interface OptionsSelectorProps {
+    options: string[];
+    unavailable: string[];
+    text: string;
+    setNeuronType: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const OptionsSelector = ({ options, unavailable=[""], setNeuronType, text }: OptionsSelectorProps) => {
+
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [selection, setSelection] = useState(options[0]);    
+
+    const variants = {
+        enter: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: "200%" },
+    };
+
+    useEffect(() => {
+        setNeuronType(selection);
+    }, [selection]);
+    
+    return (
+        <div className="relative gap-3 w-full" onMouseEnter={() => setDropdownOpen(true)} onMouseLeave={() => setDropdownOpen(false)}>
+            <motion.button className="hover:opacity-50 rounded-md flex items-center gap-3 w-full">
+                <span className="pb-1 opacity-50 font-light">{text}</span>
+                <span className="border-b pb-1 w-max">{selection}</span>
+            </motion.button>
+
+            <motion.div animate={dropdownOpen ? "enter" : "exit"} variants={variants} className={`${!dropdownOpen && "hidden"} w-52 absolute pt-3 right-14 z-10 shadow-md`}>
+                <div className="p-3 w-full rounded-md bg-white border border-black flex flex-col gap-3 text-left">
+                    {
+                        options.map((option, index) => {
+                            return (
+                                <button 
+                                    disabled={unavailable.includes(option)}
+                                    onClick={() => setSelection(option)}
+                                    key={index} 
+                                    className={`${selection === option ? "opacity-50" : "hover:opacity-50" } ${unavailable.includes(option) && "line-through"} text-left`}>
+                                    {option}
+                                </button>
+                            )
+                        })
+                    }
+                </div>
+            </motion.div>
+        </div>
+    );
+}
 
