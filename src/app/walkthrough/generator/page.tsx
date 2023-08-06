@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
@@ -44,6 +44,14 @@ export default function GeneratorPage() {
     const [clustered, setClustered] = useState(false);
 
     const [neuronSignal, setNeuronSignal] = useState<Signal | null>(null);
+
+    // const { scrollYProgress } = useScroll();
+
+    // const scaleX = useSpring(scrollYProgress, {
+    //     stiffness: 100,
+    //     damping: 30,
+    //     restDelta: 0.001
+    // });
 
     const section1 = useRef<HTMLDivElement>(null);
     const section2 = useRef<HTMLDivElement>(null);
@@ -143,6 +151,11 @@ export default function GeneratorPage() {
     return (
         <>
             <Navbar />
+
+            {/* <motion.div
+                className="progress-bar-horizontal z-40"
+                style={{ scaleX: scaleX }}
+            /> */}
 
             <main  className={`${styles.snapcontainer} snap-container font-sans overflow-x-hidden`}>
 

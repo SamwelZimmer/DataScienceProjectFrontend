@@ -6,20 +6,23 @@ import { useState, useEffect, useRef } from "react";
 // this inital grid makes it appear on the screen instantly
 
 export default function PlacementGrid() {
-
-    // get the stored placements from sessionStorage or use default value if not present
-    const defaultPlacements = JSON.stringify([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
-    const storedPlacements = JSON.parse(sessionStorage.getItem('placements') || defaultPlacements);
-    
-    const [gridSize, setGridSize] = useState<number>(storedPlacements.length > 0 ? Math.sqrt(storedPlacements.length) : 5 );
-    const [placements, setPlacements] = useState<number[]>(storedPlacements);
+    const [gridSize, setGridSize] = useState<number>(5);
+    const [placements, setPlacements] = useState<number[]>([]);
     const [placementType, setPlacementType] = useState<number>(0); 
 
     const initialRender = useRef(true); // Ref to track initial render
 
     useEffect(() => {
-        // Skip effect if it's the initial render
-        if (initialRender.current) {
+        // Now that we're on the client side, read from sessionStorage
+        const defaultPlacements = JSON.stringify([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+        const storedPlacements = JSON.parse(sessionStorage.getItem('placements') || defaultPlacements);
+        setGridSize(storedPlacements.length > 0 ? Math.sqrt(storedPlacements.length) : 5);
+        setPlacements(storedPlacements);
+    }, []);  // Empty array means this runs once on mount
+
+    useEffect(() => {
+        // Skip effect if it's the initial render or if placements aren't all zeros
+        if (initialRender.current || placements.some(val => val !== 0)) {
             initialRender.current = false;
         } else {
             let newPlacements: number[] = [];
@@ -31,12 +34,9 @@ export default function PlacementGrid() {
     }, [gridSize]);
 
     useEffect(() => {
-        // clear all session storage
-        // sessionStorage.clear(); 
-
         // add grid placement info to the storage 
         sessionStorage.setItem('placements', JSON.stringify(placements));    
-    }, [placements])
+    }, [placements]);
 
     const handleTileClick = (id: number) => {
         setPlacements(prevPlacements => prevPlacements.map((placement, index) => {
