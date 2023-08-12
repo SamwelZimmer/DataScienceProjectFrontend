@@ -12,7 +12,7 @@ interface TriangulatePlotProps {
     showConstructions: boolean;
 }
 
-export default function TriangulatePlot({ gridSize, predictedPosition, truePosition, allElectrodes, usedElectrodes, circles, showConstructions }: TriangulatePlotProps) {
+export default function TriangulatePlot({ gridSize, predictedPosition, truePosition, allElectrodes, usedElectrodes, circles, intersectingLines, showConstructions }: TriangulatePlotProps) {
     const ref = useRef<SVGSVGElement>(null);
     
     useEffect(() => {
@@ -97,21 +97,36 @@ export default function TriangulatePlot({ gridSize, predictedPosition, truePosit
                     .attr("stroke", "blue")
                     .attr("d", line);
 
-                // const radiusScale = d3.scaleLinear()
-                //     .domain([0, d3.max(circles, d => d[1])]) // domain is 0 to max radius in your data
-                //     .range([0, innerWidth / gridSize]); // range is 0 to the width of one grid cell
+                // create circles
+                circles.forEach((circle, i) => {
+                    const [center, radius] = circle;
+                    g.append("circle")
+                    .attr("cx", xScale(center[0]))
+                    .attr("cy", yScale(center[1]))
+                    .attr("r", radius * (innerWidth / gridSize)) // use the exact radius value without additional scaling
+                    .style("fill", "none")
+                    .attr("stroke", "green");
+                
+                });
 
-                // // create circles
-                // circles.forEach((circle) => {
-                //     const [center, radius] = circle;
-                //     console.log("circle",center, radius)
-                //     g.append("circle")
-                //         .attr("cx", xScale(center[0]))
-                //         .attr("cy", yScale(center[1]))
-                //         .attr("r", radiusScale(radius)) // use the scale to set the radius
-                //         .style("fill", "none")
-                //         .attr("stroke", "green");
-                // });
+                // show the intersecting tangent line
+                intersectingLines.forEach(line => {
+                    const [m, b] = line;
+    
+                    // Define the start and end x values based on the domain of the xScale
+                    const x1 = 0;
+                    const y1 = m * x1 + b;
+    
+                    const x2 = gridSize; 
+                    const y2 = m * x2 + b;
+    
+                    g.append("line")
+                        .attr("x1", xScale(x1))
+                        .attr("y1", yScale(y1))
+                        .attr("x2", xScale(x2))
+                        .attr("y2", yScale(y2))
+                        .attr("stroke", "purple")
+                });
 
             }
         }

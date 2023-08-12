@@ -16,6 +16,7 @@ import ExtractionSection from "./sections/ExtractionSection";
 import FeaturesSection from "./sections/FeaturesSection";
 import ClusteringSection from "./sections/ClusteringSection";
 import TriangulationSection from "./sections/TriangulationSection";
+import SimulationSection from "./sections/SimulationSection";
 
 export type Signal = {
     x: number[];
@@ -42,6 +43,7 @@ export default function GeneratorPage() {
     const [reduced, setReduced] = useState(false);
     const [extracted, setExtracted] = useState(false);
     const [clustered, setClustered] = useState(false);
+    const [gotLabels, setGotLabels] = useState(false);
 
     const [neuronSignal, setNeuronSignal] = useState<Signal | null>(null);
 
@@ -62,10 +64,11 @@ export default function GeneratorPage() {
     const section7 = useRef<HTMLDivElement>(null);
     const section8 = useRef<HTMLDivElement>(null);
     const section9 = useRef<HTMLDivElement>(null);
+    const section10 = useRef<HTMLDivElement>(null);
 
     // only show certain number of sections before simulation
-    let sections: Array<React.RefObject<HTMLDivElement>> = [section1, section2, section3, section4, section5, section6, section7, section8, section9];
-    let sectionNames = ["Placement", "Neuron", "Processing", "Generate", "Recordings", "Spikes", "Reduction", "Clustering", "Triangulation"];
+    let sections: Array<React.RefObject<HTMLDivElement>> = [section1, section2, section3, section4, section5, section6, section7, section8, section9, section10];
+    let sectionNames = ["Placement", "Neuron", "Processing", "Generate", "Recordings", "Spikes", "Reduction", "Clustering", "Triangulation", "Simulation"];
 
     // called whenever the user scrolls
     const handleScroll = () => {
@@ -144,6 +147,13 @@ export default function GeneratorPage() {
             setClustered(true);
         } else {
             setClustered(false);
+        }
+
+        const triangulatedData = sessionStorage.getItem('triangulatedData');
+        if (clustered && triangulatedData) {
+            setGotLabels(true);
+        } else {
+            setGotLabels(false);
         }
 
     }, [activeSection]);
@@ -288,6 +298,21 @@ export default function GeneratorPage() {
                             <div className="w-full h-full flex items-center justify-center px-12 sm:px-0 py-24">
                                 <div onClick={() => scrollTo(section8)} className="w-full h-full border rounded-md border-dashed flex items-center justify-center hover:text-black/50 cursor-pointer">
                                     <span className="px-12 text-center font-light">Cluster the Spikes to Continue</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </section>
+
+                <section ref={section10} className={`${styles.snapsection} flex items-center justify-center`}>
+                    <div className="relative w-full h-full sm:w-[600px] md:w-[700px] py-24">
+                        <h1 className="text-4xl font-semibold px-12 sm:px-0">Simulation</h1>
+                        {
+                            gotLabels ? 
+                            <SimulationSection /> : 
+                            <div className="w-full h-full flex items-center justify-center px-12 sm:px-0 py-24">
+                                <div onClick={() => scrollTo(section9)} className="w-full h-full border rounded-md border-dashed flex items-center justify-center hover:text-black/50 cursor-pointer">
+                                    <span className="px-12 text-center font-light">Triangulate Neuron Position to Continue</span>
                                 </div>
                             </div>
                         }

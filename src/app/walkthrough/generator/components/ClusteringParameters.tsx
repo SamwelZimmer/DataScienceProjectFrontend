@@ -30,8 +30,12 @@ export default function ClusteringParameters({ clusteringParams, setClusteringPa
         initial_k = 1;
     }
 
-    // set maximum to the number of spikes
-    let max_k = reductionData["quantities"]["n_spikes"];
+    let max_k = 10
+    // if (reductionData) {
+    //     // set maximum to the number of spikes
+    //     max_k = reductionData["quantities"]["n_spikes"];
+    // }
+
 
     return (
         <div className="flex flex-col gap-6">

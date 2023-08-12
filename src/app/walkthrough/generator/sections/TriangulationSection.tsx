@@ -75,8 +75,6 @@ const Plots = ({ data }: PlotsProps) => {
         return <></>
     }
 
-    console.log(data)
-
     const predictedNeurons = data["predicted_neuron_positions"];
     const allElectrodes = data["all_electrode_positions"];
 
