@@ -38,7 +38,7 @@ export default function PlayableSpikeTrain({ data, time, titles=[], labels=false
 
         const yOffset = innerHeight / (data.length + 1); // the amount of vertical separation between each color group
 
-        const colorScale = d3.scaleOrdinal(d3.schemeSet1);
+        const colorScale = d3.scaleOrdinal(d3.schemeDark2);
 
         data.forEach((colorGroup, groupIndex) => {
             const yPosition = (groupIndex + 1) * yOffset; 

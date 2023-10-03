@@ -74,7 +74,7 @@ const CheckboxParameterComponent: React.FC<CheckboxParameterProps & NeuronParame
     return (
         <div className="flex items-center justify-between w-max gap-3">
             <span className="font-light opacity-50">{symbol}</span>
-            <input type="checkbox" className="cursor-pointer" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+            <input type="checkbox" className="cursor-pointer accent-gray-600" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
         </div>
     );
 }

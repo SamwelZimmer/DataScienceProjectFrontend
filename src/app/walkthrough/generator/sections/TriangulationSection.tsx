@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 import TriangulatePlot from "../components/TriangulatePlot";
 
@@ -71,6 +72,26 @@ const Plots = ({ data }: PlotsProps) => {
 
     const placements =  JSON.parse(sessionStorage.getItem('placements') || "[]");
 
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const variants = {
+        enter: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: "200%" },
+    };
+
+    function euclideanDistance(point1: number[], point2: number[]) {
+        if (point1.length !== point2.length) {
+          throw new Error("Both points must have the same number of dimensions.");
+        }
+      
+        let sumOfSquares = 0;
+        for (let i = 0; i < point1.length; i++) {
+          sumOfSquares += Math.pow(point2[i] - point1[i], 2);
+        }
+      
+        return Math.sqrt(sumOfSquares);
+    }
+
     if (!data) {
         return <></>
     }
@@ -84,7 +105,28 @@ const Plots = ({ data }: PlotsProps) => {
             {/* plot parameters */}
             <div className="flex items-center justify-between w-max mx-auto gap-3">
                 <span className="opacity-50 font-light">Show Construction</span>
-                <input type="checkbox" checked={showConstruction} onChange={(e) => setShowConstruction(e.target.checked)} />
+                <input type="checkbox" className="accent-gray-600" checked={showConstruction} onChange={(e) => setShowConstruction(e.target.checked)} />
+
+                <div className="relative gap-3 flex" onMouseEnter={() => setDropdownOpen(true)} onMouseLeave={() => setDropdownOpen(false)}>
+                    <motion.button className="hover:opacity-50 ml-6 h-full self-center">
+                        <span className="pb-1 opacity-50 font-light"><AiOutlineInfoCircle /></span>
+                    </motion.button>
+
+                    <motion.div animate={dropdownOpen ? "enter" : "exit"} variants={variants} className={`${!dropdownOpen && "hidden"} w-max right-0 absolute pt-6 z-10`}>
+                        <div className="p-3 rounded-md bg-white border border-black flex flex-col gap-3 text-left">
+                            <p className="w-[250px] text-sm">The contructions lines show the geometry used to determine the neuron{"'"}s predicted position using the electrode{"'"} relative signal strength.</p>
+                            <div className="flex items-center gap-3 font-light opacity-50"><span>Key:</span></div>
+                            <div className="flex items-center gap-3"><div className="w-3 aspect-square rounded-full bg-blue-800" /><span>Electrode</span></div>
+                            <div className="flex items-center gap-3"><div className="w-3 aspect-square rounded-full bg-red-600" /><span>True neuron position</span></div>
+                            <div className="flex items-center gap-3"><div className="w-3 aspect-square rounded-full bg-purple-900" /><span>Predicted neuron position</span></div>
+                            <hr className="w-28 mx-auto" />
+                            <div className="flex items-center gap-3"><div className="w-3 h-[2px] rounded-full bg-blue-800" /><span>Electrode triangle</span></div>
+                            <div className="flex items-center gap-3"><div className="w-3 h-[2px] rounded-full bg-green-800" /><span>Distance from first electrode</span></div>
+                            <div className="flex items-center gap-3"><div className="w-3 h-[2px] rounded-full bg-purple-900" /><span>Line of equal signal strength</span></div>
+                        </div>
+                    </motion.div>
+                </div>
+
             </div>
 
             <div className="flex flex-col w-full h-full mx-auto gap-6">
@@ -109,6 +151,10 @@ const Plots = ({ data }: PlotsProps) => {
                                                     showConstructions={showConstruction} 
                                                 />
                                             </div>
+                                            {
+                                                neuronIndex > data["true_neuron_positions"].length - 1 ? null : 
+                                                <p className="w-full flex justify-center gap-3 pt-3"><span className="font-thin">Distance:</span>{parseFloat(euclideanDistance(predictedPosition, data[neuronIndex]["true_neuron_position"]).toFixed(2))} a.u.</p>
+                                            }
                                         </div>
                                     </div>
                                 );

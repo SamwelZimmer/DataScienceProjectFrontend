@@ -49,7 +49,7 @@ export default function ClusterPlot({ x, y, titles=false, labels=false }: Cluste
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
         // create a color scale.
-        const colorScale = d3.scaleOrdinal(d3.schemeSet1);
+        const colorScale = d3.scaleOrdinal(d3.schemeDark2);
          
          // add the scatterplot
         g.selectAll("dot")

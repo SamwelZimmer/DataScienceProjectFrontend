@@ -78,8 +78,8 @@ export default function GenerateSection() {
                         <span className="font-thin">What you{"'"}ve done so far...</span>
                         <ul className="flex flex-col md:flex-row gap-3 md:gap-12 justify-center">
                             <ListItem Icon={RiNumber1} text={"You've placed the neurons and electrodes in a grid format."} />
-                            <ListItem Icon={RiNumber2} text={"Then, you chose the type and shape of the neuron signal."} />
-                            <ListItem Icon={RiNumber3} text={"And finally, the distortion and preprocessing of signals at the electrodes."} />
+                            <ListItem Icon={RiNumber2} text={"You chose the type and shape of the neuron signal."} />
+                            <ListItem Icon={RiNumber3} text={"You selected the type of noise, attenuation and filtering to apply."} />
                         </ul>
                     </div>
 
@@ -122,9 +122,9 @@ export default function GenerateSection() {
                     <div className="w-full sm:w-[600px] md:w-[700px] mx-auto flex flex-col gap-6 px-12">
                         <span className="font-thin">What{"'"}s to come...</span>
                         <ul className="flex flex-col md:flex-row gap-3 md:gap-12 justify-center">
-                            <ListItem Icon={TbPointFilled} text={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, cumque iste! Porro."} />
-                            <ListItem Icon={TbPointFilled} text={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, labore."} />
-                            <ListItem Icon={TbPointFilled} text={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, labore."} />
+                            <ListItem Icon={TbPointFilled} text={"Next, we'll identify the spikes and extract the waveforms from each electrode signal."} />
+                            <ListItem Icon={TbPointFilled} text={"Then, the features of these waveforms will be extracted into a vectorised format."} />
+                            <ListItem Icon={TbPointFilled} text={"We'll finish up by grouping these vectorised spikes by their neuron of origin and predicting their positions."} />
                         </ul>
                     </div>
                 </section>

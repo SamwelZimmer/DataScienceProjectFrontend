@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,6 +20,41 @@ body {
 .markdown > * {
     all: revert;
 }
+
+/* animations for the coloured patches */
+@keyframes drifting {
+    0% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(1000px, 1000px);
+    }
+    100% {
+      transform: translate(-1000px, 0);
+    }
+}
+  
+  @keyframes pulsing {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+}
+
+.coloured-patch {
+    animation: 
+      drifting 1s infinite alternate, 
+      pulsing 8s infinite alternate;
+    transform: rotate(30deg);
+    animation-delay: 0.5s; /* optional delay to start the animation */
+}
+  
+  
 
 .single-signal-line {
     fill: none;
@@ -46,4 +83,15 @@ body {
     height: 10px;
     background: var(--red);
     transform-origin: 0%;
-  }
+}
+
+/* The slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+  @apply bg-gray-400 h-4 w-6 rounded-full cursor-pointer appearance-none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  @apply bg-gray-400 h-4 w-6 rounded-full cursor-pointer;
+}
+  
+  

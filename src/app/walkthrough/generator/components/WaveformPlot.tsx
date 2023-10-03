@@ -66,7 +66,7 @@ export default function WaveformPlot({ waveforms, labels=false, titles=false }: 
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
         // create a color scale.
-        const colorScale = d3.scaleOrdinal(d3.schemeSet1);
+        const colorScale = d3.scaleOrdinal(d3.schemeDark2);
 
         waveformsTransformed.forEach((waveform, index) => {
             g.append('path')

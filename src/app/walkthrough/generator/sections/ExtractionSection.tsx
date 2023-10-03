@@ -106,9 +106,9 @@ export default function ExtractionSection() {
                 </div>
 
                 <div className="w-full flex gap-6 items-center mx-auto justify-center">
-                    <hr className="w-32 h-px my-8 bg-gray-200 border-0 rounded" />
+                    <hr className="w-32 h-px  bg-gray-200 border-0 rounded" />
                     <span className="font-thin w-max">Waveforms</span>
-                    <hr className="w-32 h-px my-8 bg-gray-200 border-0 rounded" />
+                    <hr className="w-32 h-px  bg-gray-200 border-0 rounded" />
                 </div>
                 
                 {/* large screens */}

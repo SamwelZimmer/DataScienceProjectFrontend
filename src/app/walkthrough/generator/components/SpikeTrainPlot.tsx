@@ -51,7 +51,7 @@ export default function SpikeTrainPlot({ data, time, titles=[], labels=false }: 
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
         // create a color scale.
-        const colorScale = d3.scaleOrdinal(d3.schemeSet1);
+        const colorScale = d3.scaleOrdinal(d3.schemeDark2);
 
         allValues.forEach((waveform, i) => {
             g.append('path')

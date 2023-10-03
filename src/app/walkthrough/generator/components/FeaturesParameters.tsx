@@ -73,7 +73,7 @@ const SingleSlider = ({ text, name, min, max, initial, featuresParams, setFeatur
                 value={value} 
                 step="1" 
                 onChange={(e) => setValue(Number(e.target.value))} 
-                className="w-[150px] h-6 px-1 bg-gray-200 rounded-full appearance-none cursor-pointer" 
+                className="slider w-[150px] h-6 px-1 bg-gray-200 rounded-full appearance-none cursor-pointer" 
             />
             <span className="w-4 text-right">{value}</span>
         </div>    

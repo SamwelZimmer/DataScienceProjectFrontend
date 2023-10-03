@@ -57,7 +57,7 @@ export default function SimulationPlayer({ neuronPositions, neuronSpikes, gridSi
     return (
         <div className="w-full flex flex-col">
 
-            <div className="relative w-full md:w-[400px] mx-auto aspect-square border" ref={containerRef}>
+            <div className="relative w-full md:w-[350px] mx-auto aspect-square border" ref={containerRef}>
                 {neuronPositions.map((position, index) => (
                     <Neuron 
                         key={index} 
@@ -70,7 +70,7 @@ export default function SimulationPlayer({ neuronPositions, neuronSpikes, gridSi
                 ))}
             </div>
 
-            <div className="flex w-full md:w-[400px] mx-auto p-6 items-center gap-3">
+            <div className="flex w-full md:w-[350px] mx-auto p-6 items-center gap-3">
                 <PlayButton tickPerSecond={tickPerSecond} sampleLength={sampleLength} setNumberOfTicks={setNumberOfTicks} />
                 <PlayTime duration={sampleLength / sampleRate} currentTime={seconds} highRes={true} />
             </div>
